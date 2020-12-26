@@ -1,0 +1,24 @@
+{
+  "name": "graphql-template",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start-devServer": "cd server && yarn devStart",
+    "start-client": "cd client && yarn start",
+    "dev": "concurrently \"yarn start-devServer\" \"yarn start-client\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/godfreyturqz/graphql-template.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/godfreyturqz/graphql-template/issues"
+  },
+  "homepage": "https://github.com/godfreyturqz/graphql-template#readme",
+  "dependencies": {
+    "concurrently": "^5.3.0"
+  }
+}
