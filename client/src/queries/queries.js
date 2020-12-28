@@ -1,32 +1,35 @@
-import { gql } from 'apollo-boost'
+import { gql } from '@apollo/client'
 
 
-export const getBooksQuery = gql`
+export const GET_POSTS = gql`
     {
-        books{
+        posts {
             id
-            authorId
-            title
-            genre
+            post
         }
     }
 `
-
-export const getAuthorsQuery = gql`
-    {
-        authors{
+export const GET_POST_DETAILS = gql`
+    query ($id: ID!){
+        post(id: $id){
             id
-            name
-            age
+            post
         }
     }
 `
-
-export const addBookMutation = gql`
-    mutation {
-        addBook(name: "", genre: "", author: ""){
-            name
+export const CREATE_POST = gql`
+    mutation ($post: String!){
+        createPost(post: $post){
             id
+            post
+        }
+    }
+`
+export const DELETE_POST = gql`
+    mutation ($id: ID!){
+        deletePost(id: $id){
+            id
+            post
         }
     }
 `

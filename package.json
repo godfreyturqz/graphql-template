@@ -1,11 +1,11 @@
 {
-  "name": "graphql-template",
+  "name": "graphql-apollo-template",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start-devServer": "cd server && yarn devStart",
-    "start-client": "cd client && yarn start",
+    "start-devServer": "cd SERVER && yarn devStart",
+    "start-client": "cd CLIENT && yarn start",
     "dev": "concurrently \"yarn start-devServer\" \"yarn start-client\""
   },
   "repository": {

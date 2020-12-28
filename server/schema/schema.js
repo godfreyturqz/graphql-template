@@ -1,130 +1,80 @@
 const graphql = require('graphql')
-const BookModel = require('../models/BookModel')
-const AuthorModel = require('../models/AuthorModel')
-
+const PostModel = require('../models/PostModel')
 
 const {
     GraphQLObjectType,
-    GraphQLSchema,
-    GraphQLList,
     GraphQLID,
     GraphQLString,
-    GraphQLInt,
-    GraphQLNonNull
+    GraphQLList,
+    GraphQLNonNull,
+    GraphQLSchema
 } = graphql
 
-//-------------------------------------------------------------
-// SAMPLE DATA
-// const books =[
-//     {id: '1', title: 'War', genre: 'history', authorId: 1},
-//     {id: '2', title: 'Origin', genre: 'fiction', authorId: 2}
-// ]
-
-// const authors =[
-//     {id: '1', name: 'Robert Greene', age: 50},
-//     {id: '2', name: 'Dan Brown', age: 40}
-// ]
-//-------------------------------------------------------------
-
-const BookType = new GraphQLObjectType({
-    name: 'Book',
+const PostType = new GraphQLObjectType({
+    name: 'Post',
     fields: () => ({
         id: {type: GraphQLID},
-        authorId: {type: GraphQLID},
-        title: {type: GraphQLString},
-        genre: {type: GraphQLString},
-        author: {
-            type: AuthorType,
-            resolve(parent, args){
-                // return authors.find(item => item.id === parent.id)
-                return AuthorModel.findById(parent.authorId)
-            }
-        }
-    })
-})
-
-const AuthorType = new GraphQLObjectType({
-    name: 'Author',
-    fields: () => ({
-        id : {type: GraphQLID},
-        name : {type: GraphQLString},
-        age : {type: GraphQLInt},
-        books: {
-            type: new GraphQLList(BookType),
-            resolve(parent, args){
-                // return books
-                return BookModel.find({authorId: parent.id})
-            }
-        }
+        post: {type: GraphQLString}
     })
 })
 
 const RootQuery = new GraphQLObjectType({
     name: 'RootQueryType',
     fields: {
-        book: {
-            type: BookType,
-            args: { id: { type: GraphQLID } },
-            resolve(parent, args){
-                // return books.find(item => item.id === args.id)
-                return BookModel.findById(args.id)
+        post: {
+            type: PostType,
+            args: {
+                id: {type: new GraphQLNonNull(GraphQLID)}
+            },
+            async resolve(parent, args){
+                const data = await PostModel.findById(args.id)
+                return data
             }
         },
-        author: {
-            type: AuthorType,
-            args: { id : { type: GraphQLID } },
+        posts: {
+            type: new GraphQLList(PostType),
             resolve(parent, args){
-                // return authors.find(item => item.id === args.id)
-                return AuthorModel.findById(args.id)
-            }
-        },
-        books: {
-            type: new GraphQLList(BookType),
-            resolve(parent, args){
-                // return books
-                return BookModel.find({})
-            }
-        },
-        authors: {
-            type: new GraphQLList(AuthorType),
-            resolve(parent, args){
-                // return authors
-                return AuthorModel.find({})
+                return PostModel.find({})
             }
         }
     }
 })
-
+//--------------------------------------------------------------
+// CRUD FUNCTION
+//--------------------------------------------------------------
 const Mutation = new GraphQLObjectType({
     name: 'Mutation',
     fields: {
-        addAuthor: {
-            type: AuthorType,
+        createPost: {
+            type: PostType,
             args: {
-                name: {type: new GraphQLNonNull(GraphQLString)},
-                age: {type: new GraphQLNonNull(GraphQLInt)}
+                post: {type: new GraphQLNonNull(GraphQLString)}
             },
-            resolve(parent, args){
-                const data = AuthorModel.create({
-                    name: args.name,
-                    age: args.age
+            async resolve(parent, args){
+                const data = await PostModel.create({
+                    post: args.post
                 })
                 return data
             }
         },
-        addBook: {
-            type: BookType,
+        updatePost: {
+            type: PostType,
             args: {
-                authorId: {type: new GraphQLNonNull(GraphQLID)},
-                title: {type: new GraphQLNonNull(GraphQLString)},
-                genre: {type: new GraphQLNonNull(GraphQLString)}
+                id: {type: new GraphQLNonNull(GraphQLID)},
+                post: {type: new GraphQLNonNull(GraphQLString)}
             },
-            resolve(parent, args){
-                const data = BookModel.create({
-                    authorId: args.authorId,
-                    title: args.title,
-                    genre: args.genre
-                })
+            async resolve(parent, args){
+                const data = await PostModel.findByIdAndUpdate(args.id, args.post, {new: true})
+                return data
+            }
+        },
+        deletePost: {
+            type: PostType,
+            args: {
+                id: {type: new GraphQLNonNull(GraphQLID)}
+            },
+            async resolve(parent, args){
+                const data = await PostModel.findByIdAndRemove(args.id)
                 return data
             }
         }

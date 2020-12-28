@@ -1,24 +1,26 @@
-import './App.css';
-import ApolloClient from 'apollo-boost'
-import { ApolloProvider } from 'react-apollo'
+import './App.css'
+import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client'
+//components
+import Post from './components/Post'
 
-import BookList from './components/BookList'
-import AddBook from './components/AddBook'
 
+//--------------------------------------------------------------
+// APOLLO CLIENT 
+//--------------------------------------------------------------
 const client = new ApolloClient({
-  uri: 'http://localhost:5000/graphql'
+  uri: 'http://localhost:5000/api',
+  cache: new InMemoryCache()
 })
 
+//--------------------------------------------------------------
+// APP
+//--------------------------------------------------------------
 function App() {
   return (
     <ApolloProvider client={client}>
-      <div>
-        <h1>Reading List</h1>
-        <BookList/>
-        <AddBook/>
-      </div>
+      <Post/>
     </ApolloProvider>
   );
 }
 
-export default App;
+export default App

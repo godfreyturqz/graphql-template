@@ -2,10 +2,10 @@
   "name": "graphql",
   "version": "1.0.0",
   "description": "",
-  "main": "server.js",
+  "main": "_SERVER.js",
   "scripts": {
-    "start": "node server.js",
-    "devStart": "nodemon server.js"
+    "start": "node _SERVER.js",
+    "devStart": "nodemon _SERVER.js"
   },
   "author": "",
   "license": "ISC",
