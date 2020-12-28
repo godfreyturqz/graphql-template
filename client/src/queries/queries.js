@@ -2,8 +2,8 @@ import { gql } from '@apollo/client'
 
 
 export const GET_POSTS = gql`
-    {
-        posts {
+    query {
+        posts{
             id
             post
         }
@@ -20,6 +20,14 @@ export const GET_POST_DETAILS = gql`
 export const CREATE_POST = gql`
     mutation ($post: String!){
         createPost(post: $post){
+            id
+            post
+        }
+    }
+`
+export const UPDATE_POST = gql`
+    mutation($id: ID!, $post: String!){
+        updatePost(id: $id, post: $post){
             id
             post
         }
