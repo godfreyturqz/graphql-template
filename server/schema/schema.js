@@ -18,6 +18,9 @@ const PostType = new GraphQLObjectType({
     })
 })
 
+//--------------------------------------------------------------
+// QUERY
+//--------------------------------------------------------------
 const RootQuery = new GraphQLObjectType({
     name: 'RootQueryType',
     fields: {
@@ -33,14 +36,15 @@ const RootQuery = new GraphQLObjectType({
         },
         posts: {
             type: new GraphQLList(PostType),
-            resolve(parent, args){
-                return PostModel.find({})
+            async resolve(parent, args){
+                return await PostModel.find({})
             }
         }
     }
 })
+
 //--------------------------------------------------------------
-// CRUD FUNCTION
+// MUTATION
 //--------------------------------------------------------------
 const Mutation = new GraphQLObjectType({
     name: 'Mutation',
@@ -64,7 +68,7 @@ const Mutation = new GraphQLObjectType({
                 post: {type: new GraphQLNonNull(GraphQLString)}
             },
             async resolve(parent, args){
-                const data = await PostModel.findByIdAndUpdate(args.id, args.post, {new: true})
+                const data = await PostModel.findByIdAndUpdate(args.id, {post: args.post}, {new: true})
                 return data
             }
         },

@@ -18,7 +18,7 @@ export const GET_POST_DETAILS = gql`
     }
 `
 export const CREATE_POST = gql`
-    mutation ($post: String!){
+    mutation createPost($post: String!){
         createPost(post: $post){
             id
             post
@@ -26,7 +26,7 @@ export const CREATE_POST = gql`
     }
 `
 export const UPDATE_POST = gql`
-    mutation($id: ID!, $post: String!){
+    mutation updatePost($id: ID!, $post: String!){
         updatePost(id: $id, post: $post){
             id
             post
@@ -34,7 +34,7 @@ export const UPDATE_POST = gql`
     }
 `
 export const DELETE_POST = gql`
-    mutation ($id: ID!){
+    mutation deletePost($id: ID!){
         deletePost(id: $id){
             id
             post

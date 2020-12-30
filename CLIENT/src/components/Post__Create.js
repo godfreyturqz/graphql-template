@@ -5,30 +5,28 @@ import { useMutation } from '@apollo/client'
 
 const Post__Create = () => {
 
-    // CREATE POST
-    const [post, setPost] = useState('')
+    const [postValue, setPostValue] = useState('')
+
+    // GRAPHQL QUERY
     const [createPost] = useMutation(CREATE_POST, {
         refetchQueries: [{query: GET_POSTS}],
         awaitRefetchQueries: true
     })
 
+    // TEXTAREA AND POST BUTTON
     const handleTextArea = (e) => {
-        setPost(e.target.value)
+        setPostValue(e.target.value)
     }
 
-    const handleSubmit = (e) => {
+    const handleSubmitPost = (e) => {
         e.preventDefault()
         createPost({
-            variables: {post}
+            variables: {post: postValue}
         })
-        setPost('')
+        setPostValue('')
     }
 
-    return {
-        handleTextArea,
-        post,
-        handleSubmit
-    }
+    return { postValue, handleTextArea, handleSubmitPost }
 }
 
 export default Post__Create
