@@ -13,11 +13,12 @@ const Post__Create = () => {
         awaitRefetchQueries: true
     })
 
-    // TEXTAREA AND POST BUTTON
+    // TEXTAREA 
     const handleTextArea = (e) => {
         setPostValue(e.target.value)
     }
 
+    // POST BUTTON
     const handleSubmitPost = (e) => {
         e.preventDefault()
         createPost({ variables: {post: postValue} })

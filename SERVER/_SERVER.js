@@ -33,5 +33,5 @@ mongoose.connect(process.env.DB_CONNECTION, {
     useUnifiedTopology: true,
     useFindAndModify: false
 })
-.then(() => app.listen(PORT, () => console.log(`server running on PORT ${PORT}`)))
+.then(() => app.listen(PORT, () => console.log(`Server running on PORT ${PORT}`)))
 .catch(error => console.log(error))

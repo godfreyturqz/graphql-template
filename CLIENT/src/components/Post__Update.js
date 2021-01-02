@@ -14,28 +14,26 @@ const Post__Update = () => {
         awaitRefetchQueries: true,
         onCompleted: () => setUpdateValue(data.post)
     })
+
     const [updatePost] = useMutation(UPDATE_POST, {
         refetchQueries: [{query: GET_POSTS}],
         awaitRefetchQueries: true
     })
 
-    //onAfterOpen of REACT-MODAL
+    //EDIT BUTTON
     const handleEdit = (id) => {
-        setIsModalOpen(!isModalOpen)
         getPostDetails({ variables: {id} })
+        setIsModalOpen(!isModalOpen)
     }
 
     // INPUT ON CHANGE
-    const handleInputUpdate = (e) => {
-        setUpdateValue({...updateValue, post: e.target.value})
-    }
+    const handleInputUpdate = (e) => setUpdateValue({...updateValue, post: e.target.value})
 
     // UPDATE BUTTON
     const handleSubmitUpdate = () => {
         updatePost({ variables: {id: updateValue.id, post: updateValue.post} })
         setIsModalOpen(!isModalOpen)
     }
-    console.log(data)
 
     return { handleEdit, isModalOpen, setIsModalOpen, updateValue, handleInputUpdate, handleSubmitUpdate }
 }

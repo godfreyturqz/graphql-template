@@ -11,11 +11,8 @@ const Post__Delete = () => {
     })
 
     // DELETE BUTTON
-    const handleDelete = (id) => {
-        deletePost({
-            variables: {id}
-        })
-    }
+    const handleDelete = (id) => deletePost({ variables: {id} })
+
 
     return { handleDelete }
 }

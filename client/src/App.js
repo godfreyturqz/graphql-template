@@ -1,7 +1,7 @@
 import './App.css'
 import { ApolloProvider } from '@apollo/client'
 import { client } from './apollo/config'
-// components
+// COMPONENTS
 import Post from './components/Post'
 
 
