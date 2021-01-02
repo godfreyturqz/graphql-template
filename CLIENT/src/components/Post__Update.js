@@ -5,24 +5,24 @@ import { useLazyQuery, useMutation } from '@apollo/client'
 
 const Post__Update = () => {
 
-    const [onUpdate, setOnUpdate] = useState(false)
+    const [isModalOpen, setIsModalOpen] = useState(false)
     const [updateValue, setUpdateValue] = useState({})
 
     // GRAPHQL QUERY
     const [getPostDetails, { data }] = useLazyQuery(GET_POST_DETAILS, {
+        refetchQueries: [{query: GET_POSTS}],
+        awaitRefetchQueries: true,
         onCompleted: () => setUpdateValue(data.post)
     })
     const [updatePost] = useMutation(UPDATE_POST, {
-        
+        refetchQueries: [{query: GET_POSTS}],
+        awaitRefetchQueries: true
     })
 
-    //EDIT BUTTON
+    //onAfterOpen of REACT-MODAL
     const handleEdit = (id) => {
-        getPostDetails({ variables: {id},
-            refetchQueries: [{query: GET_POSTS}],
-        awaitRefetchQueries: true
-         })
-        setOnUpdate(!onUpdate)
+        setIsModalOpen(!isModalOpen)
+        getPostDetails({ variables: {id} })
     }
 
     // INPUT ON CHANGE
@@ -30,20 +30,14 @@ const Post__Update = () => {
         setUpdateValue({...updateValue, post: e.target.value})
     }
 
-    // CANCEL BUTTON
-    const handleCancelEdit = (params) => {
-        setOnUpdate(!onUpdate)
-    }
-    
-
     // UPDATE BUTTON
     const handleSubmitUpdate = () => {
         updatePost({ variables: {id: updateValue.id, post: updateValue.post} })
-        setOnUpdate(!onUpdate)
+        setIsModalOpen(!isModalOpen)
     }
-    
+    console.log(data)
 
-    return { onUpdate, updateValue, handleEdit, handleInputUpdate, handleCancelEdit, handleSubmitUpdate }
+    return { handleEdit, isModalOpen, setIsModalOpen, updateValue, handleInputUpdate, handleSubmitUpdate }
 }
 
 export default Post__Update

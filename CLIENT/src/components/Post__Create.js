@@ -20,9 +20,7 @@ const Post__Create = () => {
 
     const handleSubmitPost = (e) => {
         e.preventDefault()
-        createPost({
-            variables: {post: postValue}
-        })
+        createPost({ variables: {post: postValue} })
         setPostValue('')
     }
 
